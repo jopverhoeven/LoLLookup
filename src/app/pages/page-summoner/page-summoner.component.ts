@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SummonerService } from 'src/app/services/summoner.service';
 import { ActivatedRoute } from '@angular/router';
 import { Summoner } from 'src/models/summoner/summoner.model';
-import { DATA_SUMMONER_ICON_URL } from 'src/constants/api/api.constants';
+import { DATA_SUMMONER_ICON_URL, DATA_CHAMPION_ICON_URL } from 'src/constants/api/api.constants';
 
 @Component({
   selector: 'app-page-summoner',
@@ -12,6 +12,7 @@ import { DATA_SUMMONER_ICON_URL } from 'src/constants/api/api.constants';
 export class PageSummonerComponent implements OnInit {
 
   profileIconUrl = DATA_SUMMONER_ICON_URL;
+  championIconUrl = DATA_CHAMPION_ICON_URL;
   doneLoading = false;
   summoner: Summoner;
 
@@ -23,7 +24,6 @@ export class PageSummonerComponent implements OnInit {
   async ngOnInit() {
     const summonerName = this.route.snapshot.paramMap.get('name');
     await this.getSummonerByName(summonerName);
-
     this.doneLoading = true;
   }
 
