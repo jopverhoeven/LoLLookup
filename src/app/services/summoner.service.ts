@@ -21,11 +21,19 @@ export class SummonerService {
       .pipe(map((data: Summoner) => (summoner = data)))
       .toPromise();
 
-    summoner.mastery.forEach(element => {
-      this.getChampionName(element.championId).then((data: Champion) => {
+    const promises = summoner.mastery.map(async element => {
+      await this.getChampionName(element.championId).then((data: Champion) => {
         element.champion = data;
       });
     });
+
+    await Promise.all(promises);
+
+    // summoner.mastery.forEach(element => {
+    //   this.getChampionName(element.championId).then((data: Champion) => {
+    //     element.champion = data;
+    //   });
+    // });
 
     return summoner;
   }
