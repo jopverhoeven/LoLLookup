@@ -1,29 +1,128 @@
 <div *ngIf="!doneLoading"></div>
-<div *ngIf="doneLoading" style="margin-top: 20px;" fxLayout="row" fxLayoutAlign="center start" >
-  <div fxLayout="column" ngStyle.gt-md="width: 70%;" ngStyle.lt-md="width: 90%;" fxLayoutGap="10px">
-    <div fxLayout="row" fxLayoutGap.gt-md="20px" ngClass.gt-md="header" ngClass.lt-md="m-header">
-      <img src="{{ profileIconUrl + summoner.profileIconId }}.png">
+<div
+  *ngIf="doneLoading"
+  style="margin-top: 20px;"
+  fxLayout="row"
+  fxLayoutAlign="center start"
+>
+  <div
+    fxLayout="column"
+    ngStyle.gt-md="width: 70%;"
+    ngStyle.lt-md="width: 90%;"
+    fxLayoutGap="10px"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutGap.gt-md="20px"
+      ngClass.gt-md="header"
+      ngClass.lt-md="m-header"
+    >
+      <img src="{{ profileIconUrl + summoner.profileIconId }}.png" />
       <div fxLayout="column" fxLayoutGap="0px">
-        <h1 class="mat-display-1">{{summoner.name}}</h1>
-        <h2 class="mat-subheading-1">Summoner Level {{summoner.summonerLevel}}</h2>
+        <h1 class="mat-display-1">{{ summoner.name }}</h1>
+        <h2 class="mat-subheading-1">
+          Summoner Level {{ summoner.summonerLevel }}
+        </h2>
       </div>
     </div>
-    <div fxLayout="row" fxLayout.lt-md="column">
-      <div fxLayout="column" fxFlex="20">
-        Mastery Points: 100000
-        Rank: GOLD
-      </div>
-      <div fxLayout="column" fxLayoutGap="5px">
-        <div class="champion" fxLayout="row" fxLayoutGap="5px" *ngFor="let mastery of summoner.mastery">
-          <img  src="{{ championIconUrl + mastery.champion.devname}}.png" />
-          <p>{{mastery.champion.name}}</p>
-          <p>{{mastery.championLevel}}</p>
-          <p>{{mastery.championPoints}}</p>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="10px">
+      <div fxLayout="column" fxFlex="20" fxLayoutGap="5px">
+        <div *ngFor="let ranked of rankedData" fxLayout="column">
+          <mat-card>
+            <mat-card-header>
+              <img
+                mat-card-avatar
+                src="../../../assets/images/ranked/Emblem_{{ ranked.tier }}.png"
+              />
+              <mat-card-title
+                >{{ ranked.tier }} {{ ranked.rank }}</mat-card-title
+              >
+              <mat-card-subtitle>{{ ranked.queueType }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div
+                fxLayout="column"
+                fxLayoutGap="2px"
+                fxLayoutAlign="start center"
+              >
+                <h2 class="mat-h2">
+                  {{ ranked.leaguePoints }} LP / {{ ranked.wins }}W
+                  {{ ranked.losses }}L
+                </h2>
+                <p>Winratio: {{ranked.winratio}}%</p>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
+      <div fxLayout="column" fxFlex="80">
+        <div
+          fxLayout="row wrap"
+          fxFlex.gt-md="80"
+          fxFlex.lt-md="100"
+          fxLayoutAlign.lt-md="end start"
+          fxLayoutGap="20px"
+        >
+          <div
+            style="padding-bottom: 5px;"
+            fxLayout="column"
+            ngClass.gt-md="champion"
+            ngClass.lt-md="m-champion"
+            *ngFor="let mastery of summoner.mastery"
+            fxFlex="15"
+            fxFlex.lt-md="40"
+          >
+            <mat-card>
+              <mat-card-content>
+                <img
+                  mat-card-image
+                  src="{{ championIconUrl + mastery.champion.devname }}_0.jpg"
+                />
+              </mat-card-content>
+              <mat-card-content fxLayout="center center">
+                <p>{{ mastery.champion.name }}</p>
+              </mat-card-content>
+              <mat-card-content>
+                <div fxFlex="40" fxLayoutAlign="center center" fxLayoutGap="0">
+                  <img
+                    *ngIf="mastery.championLevel >= 4"
+                    style="width: 100%; height: auto;"
+                    src="https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_{{
+                      mastery.championLevel
+                    }}.png"
+                  />
+                  <img
+                    *ngIf="mastery.championLevel < 4"
+                    style="width: 100%; height: auto;"
+                    src="https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_default.png"
+                  />
+                </div>
+                <div fxFlex="60" fxLayoutAlign="center center">
+                  {{ mastery.championPoints }}
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div fxLayout="column" fxLayoutGap="10px">
+        <h1 class="mat-display-1">Champion Mastery</h1>
+        <div
+          class="champion"
+          fxLayout="row"
+          fxLayoutGap="5px"
+          *ngFor="let mastery of summoner.mastery"
+        >
+          <img src="{{ championIconUrl + mastery.champion.devname }}.png" />
+          <p>{{ mastery.champion.name }}</p>
+          <p>{{ mastery.championLevel }}</p>
+          <p>{{ mastery.championPoints }}</p>
+        </div>
+      </div>
+    </div> -->
     </div>
-  </div>
-  <!-- <div fxLayout="column" ngStyle.gt-md="width: 50%;" ngStyle.lt-md="width: 90%;">
+    <!-- <div fxLayout="column" ngStyle.gt-md="width: 50%;" ngStyle.lt-md="width: 90%;">
     <mat-card>
       <mat-card-header>
         <img mat-card-avatar src="{{ profileIconUrl + summoner.profileIconId }}.png" />
@@ -46,4 +145,5 @@
       </mat-card-content>
     </mat-card>
   </div> -->
+  </div>
 </div>

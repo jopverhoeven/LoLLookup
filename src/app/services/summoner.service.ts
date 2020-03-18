@@ -4,9 +4,11 @@ import { map } from 'rxjs/operators';
 import { Summoner } from 'src/models/summoner/summoner.model';
 import {
   API_SUMMONER_URL,
-  API_CHAMPION_NAME_URL
+  API_CHAMPION_NAME_URL,
+  API_RANKED_URL
 } from 'src/constants/api/api.constants';
 import { Champion } from 'src/models/champion/champion.model';
+import { Ranked } from 'src/models/ranked/ranked.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +38,17 @@ export class SummonerService {
     // });
 
     return summoner;
+  }
+
+  async getRankedDataBySummonerId(id: string): Promise<Ranked[]> {
+    let ranked: Ranked[];
+
+    await this.httpClient
+    .get(API_RANKED_URL + id)
+    .pipe(map((data: Ranked[]) => (ranked = data)))
+    .toPromise();
+
+    return ranked;
   }
 
   private async getChampionName(championId: number): Promise<Champion> {
