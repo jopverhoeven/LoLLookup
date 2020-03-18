@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Summoner } from 'src/models/summoner/summoner.model';
 import {
   DATA_SUMMONER_ICON_URL,
-  DATA_CHAMPION_ICON_URL,
   DATA_CHAMPION_LOADING_URL
 } from 'src/constants/api/api.constants';
 import { Ranked } from 'src/models/ranked/ranked.model';
@@ -50,8 +49,6 @@ export class PageSummonerComponent implements OnInit {
       .getRankedDataBySummonerId(summonerId)
       .then(data => {
         this.rankedData = data;
-        console.log(data);
-        console.log(this.rankedData);
       });
   }
 
