@@ -49,61 +49,72 @@
                   {{ ranked.leaguePoints }} LP / {{ ranked.wins }}W
                   {{ ranked.losses }}L
                 </h2>
-                <p>Winratio: {{ranked.winratio}}%</p>
+                <p>Winratio: {{ ranked.winratio }}%</p>
               </div>
             </mat-card-content>
           </mat-card>
         </div>
       </div>
       <div fxLayout="column" fxFlex="80">
-        <div
-          fxLayout="row wrap"
-          fxFlex.gt-md="80"
-          fxFlex.lt-md="100"
-          fxLayoutAlign.lt-md="end start"
-          fxLayoutGap="20px"
-        >
-          <div
-            style="padding-bottom: 5px;"
-            fxLayout="column"
-            ngClass.gt-md="champion"
-            ngClass.lt-md="m-champion"
-            *ngFor="let mastery of summoner.mastery"
-            fxFlex="15"
-            fxFlex.lt-md="40"
-          >
-            <mat-card>
-              <mat-card-content>
-                <img
-                  mat-card-image
-                  src="{{ championIconUrl + mastery.champion.devname }}_0.jpg"
-                />
-              </mat-card-content>
-              <mat-card-content fxLayout="center center">
-                <p>{{ mastery.champion.name }}</p>
-              </mat-card-content>
-              <mat-card-content>
-                <div fxFlex="40" fxLayoutAlign="center center" fxLayoutGap="0">
-                  <img
-                    *ngIf="mastery.championLevel >= 4"
-                    style="width: 100%; height: auto;"
-                    src="https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_{{
-                      mastery.championLevel
-                    }}.png"
-                  />
-                  <img
-                    *ngIf="mastery.championLevel < 4"
-                    style="width: 100%; height: auto;"
-                    src="https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_default.png"
-                  />
-                </div>
-                <div fxFlex="60" fxLayoutAlign="center center">
-                  {{ mastery.championPoints }}
-                </div>
-              </mat-card-content>
-            </mat-card>
-          </div>
-        </div>
+        <mat-tab-group dynamicHeight>
+          <mat-tab label="Champion Mastery">
+            <div
+              fxLayout="row wrap"
+              fxLayoutAlign="center start"
+              fxLayoutGap="20px"
+            >
+              <div
+                style="padding-bottom: 5px;"
+                fxLayout="column"
+                ngClass.gt-md="champion"
+                ngClass.lt-md="m-champion"
+                *ngFor="let mastery of summoner.mastery"
+                fxFlex="15"
+                fxFlex.lt-md="40"
+              >
+                <mat-card>
+                  <mat-card-content>
+                    <img
+                      mat-card-image
+                      src="{{
+                        championIconUrl + mastery.champion.devname
+                      }}_0.jpg"
+                    />
+                  </mat-card-content>
+                  <mat-card-content fxLayout="center center">
+                    <p>{{ mastery.champion.name }}</p>
+                  </mat-card-content>
+                  <mat-card-content>
+                    <div
+                      fxFlex="40"
+                      fxLayoutAlign="center center"
+                      fxLayoutGap="0"
+                    >
+                      <img
+                        *ngIf="mastery.championLevel >= 4"
+                        style="width: 100%; height: auto;"
+                        src="https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_{{
+                          mastery.championLevel
+                        }}.png"
+                      />
+                      <img
+                        *ngIf="mastery.championLevel < 4"
+                        style="width: 100%; height: auto;"
+                        src="https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_default.png"
+                      />
+                    </div>
+                    <div fxFlex="60" fxLayoutAlign="center center">
+                      {{ mastery.championPoints }}
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Match History">
+
+          </mat-tab>
+        </mat-tab-group>
       </div>
 
       <!-- <div fxLayout="column" fxLayoutGap="10px">
