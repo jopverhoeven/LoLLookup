@@ -1,8 +1,10 @@
-export const API_URL = 'https://api.lollookup.jopverhoeven.nl/';
-// export const API_URL = 'http://localhost:3000/'; // Testing
+// export const API_URL = 'https://api.lollookup.jopverhoeven.nl/';
+export const API_URL = 'http://localhost:3000/'; // Testing
 export const API_SUMMONER_URL = API_URL + 'summoner?name=';
 export const API_CHAMPION_NAME_URL = API_URL + 'champion?id=';
 export const API_RANKED_URL = API_URL + 'ranked?id=';
+export const API_MATCH_LIST_URL = API_URL + 'match?id=';
+export const API_MATCH_GAME_URL = API_URL + 'match/game?gameId=';
 
 export const DATA_URL = 'https://ddragon.leagueoflegends.com/cdn/10.5.1/';
 export const DATA_URL_NO_VERSION = 'https://ddragon.leagueoflegends.com/cdn/';
