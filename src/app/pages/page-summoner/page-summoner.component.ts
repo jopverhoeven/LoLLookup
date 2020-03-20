@@ -58,7 +58,10 @@ export class PageSummonerComponent implements OnInit {
   }
 
   async getGameFromMatchId(matchId: number, summonerId: string) {
-    await this.summonerService.getGame(matchId, summonerId).then(data => (this.gameList.push(data)));
+    await this.summonerService.getGame(matchId, summonerId).then(data => {
+      data.gameCreation = new Date(data.gameCreation);
+      this.gameList.push(data);
+    });
   }
 
   async getSummonerByName(summonerName: string) {

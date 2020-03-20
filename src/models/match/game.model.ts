@@ -7,4 +7,10 @@ export class Game {
   queueType: string;
   championId: number;
   champion?: Champion;
+
+  kills: number;
+  deaths: number;
+  assists: number;
+
+  won: boolean;
 }

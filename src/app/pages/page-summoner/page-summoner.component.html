@@ -1,7 +1,22 @@
 <div *ngIf="!doneLoading"></div>
-<div *ngIf="doneLoading" style="margin-top: 20px;" fxLayout="row" fxLayoutAlign="center start">
-  <div fxLayout="column" ngStyle.gt-md="width: 70%;" ngStyle.lt-md="width: 90%;" fxLayoutGap="10px">
-    <div fxLayout="row" fxLayoutGap.gt-md="20px" ngClass.gt-md="header" ngClass.lt-md="m-header">
+<div
+  *ngIf="doneLoading"
+  style="margin-top: 20px;"
+  fxLayout="row"
+  fxLayoutAlign="center start"
+>
+  <div
+    fxLayout="column"
+    ngStyle.gt-md="width: 70%;"
+    ngStyle.lt-md="width: 90%;"
+    fxLayoutGap="10px"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutGap.gt-md="20px"
+      ngClass.gt-md="header"
+      ngClass.lt-md="m-header"
+    >
       <img src="{{ profileIconUrl + summoner.profileIconId }}.png" />
       <div fxLayout="column" fxLayoutGap="0px">
         <h1 class="mat-display-1">{{ summoner.name }}</h1>
@@ -15,12 +30,21 @@
         <div *ngFor="let ranked of rankedData" fxLayout="column">
           <mat-card>
             <mat-card-header>
-              <img mat-card-avatar src="../../../assets/images/ranked/Emblem_{{ ranked.tier }}.png" />
-              <mat-card-title>{{ ranked.tier }} {{ ranked.rank }}</mat-card-title>
+              <img
+                mat-card-avatar
+                src="../../../assets/images/ranked/Emblem_{{ ranked.tier }}.png"
+              />
+              <mat-card-title
+                >{{ ranked.tier }} {{ ranked.rank }}</mat-card-title
+              >
               <mat-card-subtitle>{{ ranked.queueType }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <div fxLayout="column" fxLayoutGap="2px" fxLayoutAlign="start center">
+              <div
+                fxLayout="column"
+                fxLayoutGap="2px"
+                fxLayoutAlign="start center"
+              >
                 <h2 class="mat-h2">
                   {{ ranked.leaguePoints }} LP / {{ ranked.wins }}W
                   {{ ranked.losses }}L
@@ -34,25 +58,50 @@
       <div fxLayout="column" fxFlex="80">
         <mat-tab-group dynamicHeight>
           <mat-tab label="Champion Mastery">
-            <div fxLayout="row wrap" fxLayoutAlign="center start" fxLayoutGap="20px">
-              <div style="padding-bottom: 5px;" fxLayout="column" ngClass.gt-md="champion" ngClass.lt-md="m-champion"
-                *ngFor="let mastery of summoner.mastery" fxFlex="15" fxFlex.lt-md="40">
+            <div
+              fxLayout="row wrap"
+              fxLayoutAlign="center start"
+              fxLayoutGap="20px"
+            >
+              <div
+                style="padding-bottom: 5px;"
+                fxLayout="column"
+                ngClass.gt-md="champion"
+                ngClass.lt-md="m-champion"
+                *ngFor="let mastery of summoner.mastery"
+                fxFlex="15"
+                fxFlex.lt-md="40"
+              >
                 <mat-card>
                   <mat-card-content>
-                    <img mat-card-image src="{{
+                    <img
+                      mat-card-image
+                      src="{{
                         championLoadingUrl + mastery.champion.devname
-                      }}_0.jpg" />
+                      }}_0.jpg"
+                    />
                   </mat-card-content>
                   <mat-card-content fxLayout="center center">
                     <p>{{ mastery.champion.name }}</p>
                   </mat-card-content>
                   <mat-card-content>
-                    <div fxFlex="40" fxLayoutAlign="center center" fxLayoutGap="0">
-                      <img *ngIf="mastery.championLevel >= 4" style="width: 100%; height: auto;" src="https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_{{
+                    <div
+                      fxFlex="40"
+                      fxLayoutAlign="center center"
+                      fxLayoutGap="0"
+                    >
+                      <img
+                        *ngIf="mastery.championLevel >= 4"
+                        style="width: 100%; height: auto;"
+                        src="https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_{{
                           mastery.championLevel
-                        }}.png" />
-                      <img *ngIf="mastery.championLevel < 4" style="width: 100%; height: auto;"
-                        src="https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_default.png" />
+                        }}.png"
+                      />
+                      <img
+                        *ngIf="mastery.championLevel < 4"
+                        style="width: 100%; height: auto;"
+                        src="https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_default.png"
+                      />
                     </div>
                     <div fxFlex="60" fxLayoutAlign="center center">
                       {{ mastery.championPoints }}
@@ -64,13 +113,39 @@
           </mat-tab>
           <mat-tab label="Match History">
             <div fxLayout="column">
-              <div fxLayout="row" *ngFor="let game of gameList">
+              <div *ngFor="let game of gameList" style="margin: 10px;">
                 <mat-card>
-                  <mat-card-content fxLayout="row">
-                    <img mat-card-sm-image src="{{championIconUrl + game.champion.devname}}.png">
-                    <p>{{game.queueType}}</p>
-                    <p>{{game.champion.name}}</p>
-                    <p>{{game.gameCreation}}</p>
+                  <mat-card-header>
+                    <img
+                      mat-card-avatar
+                      src="{{ championIconUrl + game.champion.devname }}.png"
+                    />
+                    <mat-card-title fxLayout="row" fxLayoutGap="10px">{{ game.queueType }} <div *ngIf="game.won" class="match-won"> Victory </div><div *ngIf="!game.won" class="match-lost"> Defeat </div></mat-card-title>
+                    <mat-card-subtitle>{{
+                      game.gameCreation.toLocaleDateString()
+                    }}</mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <mat-accordion>
+                      <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Player Data
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div fxLayout="column" fxLayoutGap="5px">
+                          <div fxLayout="row" fxLayoutGap="5px">
+                            Kills: {{game.kills}}
+                          </div>
+                          <div fxLayout="row" fxLayoutGap="5px">
+                            Deaths: {{game.deaths}}
+                          </div>
+                          <div fxLayout="row" fxLayoutGap="5px">
+                            Assists: {{game.assists}}
+                          </div>
+                        </div>
+                      </mat-expansion-panel>
+                    </mat-accordion>
                   </mat-card-content>
                 </mat-card>
               </div>
