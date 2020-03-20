@@ -1,6 +1,11 @@
-<div *ngIf="!doneLoading"></div>
+<div fxLayoutAlign="center start" *ngIf="!doneLoading && !error">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="error" fxLayoutAlign="center start">
+  <p>Something went wrong...</p>
+</div>
 <div
-  *ngIf="doneLoading"
+  *ngIf="doneLoading && !error"
   style="margin-top: 20px;"
   fxLayout="row"
   fxLayoutAlign="center start"
@@ -114,13 +119,13 @@
           <mat-tab label="Match History">
             <div fxLayout="column">
               <div *ngFor="let game of gameList" style="margin: 10px;">
-                <mat-card>
+                <mat-card [ngClass]="(game.won)?'match-won':'match-lost'">
                   <mat-card-header>
                     <img
                       mat-card-avatar
                       src="{{ championIconUrl + game.champion.devname }}.png"
                     />
-                    <mat-card-title fxLayout="row" fxLayoutGap="10px">{{ game.queueType }} <div *ngIf="game.won" class="match-won"> Victory </div><div *ngIf="!game.won" class="match-lost"> Defeat </div></mat-card-title>
+                    <mat-card-title fxLayout="row" fxLayoutGap="10px">{{ game.queueType }}</mat-card-title>
                     <mat-card-subtitle>{{
                       game.gameCreation.toLocaleDateString()
                     }}</mat-card-subtitle>
@@ -148,6 +153,12 @@
                     </mat-accordion>
                   </mat-card-content>
                 </mat-card>
+              </div>
+              <div *ngIf="!doneLoadingNextMatches">
+                <mat-spinner></mat-spinner>
+              </div>
+              <div>
+                <button mat-raised-button color="primary" style="margin: 10px" (click)="loadNextMatches()">Load next {{increase}} matches</button>
               </div>
             </div>
           </mat-tab>
