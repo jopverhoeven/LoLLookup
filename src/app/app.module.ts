@@ -9,13 +9,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { PageSummonerComponent } from './pages/page-summoner/page-summoner.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PageHomeComponent,
-    PageSummonerComponent
-  ],
+  declarations: [AppComponent, PageHomeComponent, PageSummonerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,8 +20,10 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     HttpClientModule,
     FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
