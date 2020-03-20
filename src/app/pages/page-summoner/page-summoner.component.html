@@ -118,7 +118,7 @@
           </mat-tab>
           <mat-tab label="Match History">
             <div fxLayout="column">
-              <div *ngFor="let game of gameList" style="margin: 10px;">
+              <div *ngFor="let game of gameList; let i = index;" style="margin: 10px;" id="game-{{i}}">
                 <mat-card [ngClass]="(game.won)?'match-won':'match-lost'">
                   <mat-card-header>
                     <img
