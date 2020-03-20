@@ -1,8 +1,9 @@
 <div fxLayout="row" fxLayoutAlign="center center">
-  <mat-form-field appearance="standard">
-    <mat-label>Summoner Name</mat-label>
-    <input matInput placeholder="Summoner Name" />
-    <mat-hint>Only EUW for now...</mat-hint>
-  </mat-form-field>
-  <button mat-raised-button color="primary">Search</button>
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <input matInput type="text" formControlName="search" placeholder="Summoner..." required>
+      <mat-error *ngIf="search.invalid">Vul een comment in.</mat-error>
+    </mat-form-field>
+    <button mat-button type="submit" [disabled]="!searchForm.valid">Search</button>
+  </form>
 </div>
