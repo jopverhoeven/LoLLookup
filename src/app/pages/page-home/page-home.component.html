@@ -1,8 +1,9 @@
-<div fxLayout="row" fxLayoutAlign="center center">
-  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
+<div fxFlexFill fxLayoutAlign="center center" class="container" fxLayout="column">
+  <h1 ngClass.gt-sm="mat-display-4" ngClass.lt-sm="mat-display-3" style="color: white;">LoLLookup</h1>
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="searchbox" fxLayout="column" ngStyle.gt-sm="width: 30%;" ngStyle.lt-sm="width: 90%;">
+    <mat-form-field [hideRequiredMarker]="true">
       <input matInput type="text" formControlName="search" placeholder="Summoner..." required>
-      <mat-error *ngIf="search.invalid">Vul een comment in.</mat-error>
+      <mat-error *ngIf="search.invalid">Fill in a summonername...</mat-error>
     </mat-form-field>
     <button mat-button type="submit" [disabled]="!searchForm.valid">Search</button>
   </form>
