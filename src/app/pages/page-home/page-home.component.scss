@@ -1,11 +1,18 @@
 .container {
-  background: url('https://raw.communitydragon.org/latest/game/assets/loadingscreen/tutorial_module_1_background.png');
+}
 
+.background {
+  background: url('https://raw.communitydragon.org/latest/game/assets/loadingscreen/tutorial_module_1_background.png');
+  // background: url('http://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/summoner-backdrops/1425.webm');
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   background-color: #464646;
+}
+
+.container-info {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .searchbox {
