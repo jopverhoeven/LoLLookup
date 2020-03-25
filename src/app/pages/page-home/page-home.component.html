@@ -1,22 +1,29 @@
-<div fxFlexFill fxLayout="column" class="container background">
+<div fxFlexFill fxLayout="column" class="background">
   <div fxFlexFill fxLayout="column">
     <div fxFlex="100" fxLayoutAlign="center center"  fxLayout="column">
       <h1 ngClass.gt-sm="mat-display-4" ngClass.lt-sm="mat-display-3" style="color: white;">LoLLookup</h1>
       <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="searchbox" fxLayout="column" ngStyle.gt-sm="width: 30%;" ngStyle.lt-sm="width: 90%;">
-        <mat-form-field [hideRequiredMarker]="true">
-          <input matInput type="text" formControlName="search" placeholder="Summoner..." required>
-          <mat-error *ngIf="search.invalid">Fill in a summonername...</mat-error>
-        </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="5px">
+          <mat-form-field [hideRequiredMarker]="true" fxFlex="60">
+            <input matInput type="text" formControlName="search" placeholder="Summoner..." required>
+            <mat-error *ngIf="search.invalid">Fill in a summonername...</mat-error>
+          </mat-form-field>
+          <mat-spinner *ngIf="!doneLoadingRegions" fxFlex="40"></mat-spinner>
+          <mat-form-field *ngIf="doneLoadingRegions" fxFlex="40" [hideRequiredMarker]="true">
+            <mat-label>
+              Region
+            </mat-label>
+            <mat-select [(value)]="selectedRegion" required>
+              <mat-option *ngFor="let region of regions" [value]="region.internalname">
+                {{region.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
         <button mat-button type="submit" [disabled]="!searchForm.valid">Search</button>
       </form>
     </div>
   </div>
-  <div fxFlexFill class="background" fxLayout="column">
-    <div fxFlex="100" class="container-info">
-      Test
-    </div>
-  </div>
-
 </div>
 
 

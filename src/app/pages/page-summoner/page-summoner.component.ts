@@ -42,7 +42,13 @@ export class PageSummonerComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    const region = this.route.snapshot.paramMap.get('region');
     const summonerName = this.route.snapshot.paramMap.get('name');
+
+    console.log(region);
+
+    this.summonerService.setRegion(region);
+
     await this.getSummonerByName(summonerName);
     await this.getRankedDataBySummonerId(this.summoner.id);
     await this.loadNextMatches();

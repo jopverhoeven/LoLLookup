@@ -9,21 +9,29 @@ import {
   API_CHAMPION_NAME_URL,
   API_RANKED_URL,
   API_MATCH_LIST_URL,
-  API_MATCH_GAME_URL
+  API_MATCH_GAME_URL,
+  API_REGION_URL
 } from 'src/constants/api/api.constants';
 import { Champion } from 'src/models/champion/champion.model';
 import { Ranked } from 'src/models/ranked/ranked.model';
+import { Region } from 'src/models/region/region.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SummonerService {
-  constructor(private httpClient: HttpClient) { }
+  private regionString = '&region=';
+
+  constructor(private httpClient: HttpClient) {}
+
+  setRegion(region: string) {
+    this.regionString = '&region=' + region;
+  }
 
   async getSummonerByName(name: string): Promise<Summoner> {
     let summoner: Summoner;
     await this.httpClient
-      .get(API_SUMMONER_URL + name)
+      .get(API_SUMMONER_URL + name + this.regionString)
       .pipe(map((data: Summoner) => (summoner = data)))
       .toPromise();
 
@@ -48,7 +56,7 @@ export class SummonerService {
     let ranked: Ranked[];
 
     await this.httpClient
-      .get(API_RANKED_URL + id)
+      .get(API_RANKED_URL + id + this.regionString)
       .pipe(map((data: Ranked[]) => (ranked = data)))
       .toPromise();
 
@@ -59,7 +67,7 @@ export class SummonerService {
     let matchList: MatchList;
 
     await this.httpClient
-      .get(API_MATCH_LIST_URL + id + '&start=' + start + '&end=' + end)
+      .get(API_MATCH_LIST_URL + id + '&start=' + start + '&end=' + end + this.regionString)
       .pipe(map((data: MatchList) => (matchList = data)))
       .toPromise();
 
@@ -70,13 +78,26 @@ export class SummonerService {
     let game: Game;
 
     await this.httpClient
-      .get(API_MATCH_GAME_URL + gameId + '&summonerId=' + summonerId)
+      .get(API_MATCH_GAME_URL + gameId + '&summonerId=' + summonerId + this.regionString)
       .pipe(map((data: Game) => (game = data)))
       .toPromise();
 
-    await this.getChampionName(game.championId).then(data => (game.champion = data))
+    await this.getChampionName(game.championId).then(
+      data => (game.champion = data)
+    );
 
     return game;
+  }
+
+  async getRegions(): Promise<Region[]> {
+    let region: Region[];
+
+    await this.httpClient
+      .get(API_REGION_URL)
+      .pipe(map((data: Region[]) => (region = data)))
+      .toPromise();
+
+    return region;
   }
 
   private async getChampionName(championId: number): Promise<Champion> {

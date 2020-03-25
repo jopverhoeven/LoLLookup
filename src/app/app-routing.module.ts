@@ -9,8 +9,18 @@ const routes: Routes = [
     component: PageHomeComponent
   },
   {
-    path: 'summoner/:name',
-    component: PageSummonerComponent
+    path: ':region',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'summoner/:name'
+      },
+      {
+        path: 'summoner/:name',
+        component: PageSummonerComponent
+      }
+    ]
   }
 ];
 
