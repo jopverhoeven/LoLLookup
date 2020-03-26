@@ -1,11 +1,11 @@
-<div fxLayoutAlign="center start" *ngIf="!doneLoading && !error">
-  <mat-spinner></mat-spinner>
-</div>
 <div *ngIf="error" fxLayoutAlign="center start">
   <p>Something went wrong...</p>
 </div>
+<div *ngIf="!doneLoadingSummoner && !error">
+
+</div>
 <div
-  *ngIf="doneLoading && !error"
+  *ngIf="doneLoadingSummoner && !error"
   style="margin-top: 20px;"
   fxLayout="row"
   fxLayoutAlign="center start"
@@ -60,7 +60,10 @@
           </mat-card>
         </div>
       </div>
-      <div fxLayout="column" fxFlex="80">
+      <div *ngIf="!doneLoadingChampionMastery" fxFlex="80">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div *ngIf="doneLoadingChampionMastery" fxLayout="column" fxFlex="80">
         <mat-tab-group dynamicHeight>
           <mat-tab label="Champion Mastery">
             <div
@@ -73,7 +76,7 @@
                 fxLayout="column"
                 ngClass.gt-md="champion"
                 ngClass.lt-md="m-champion"
-                *ngFor="let mastery of summoner.mastery"
+                *ngFor="let mastery of mastery"
                 fxFlex="15"
                 fxFlex.lt-md="40"
               >
@@ -118,14 +121,20 @@
           </mat-tab>
           <mat-tab label="Match History">
             <div fxLayout="column">
-              <div *ngFor="let game of gameList; let i = index;" style="margin: 10px;" id="game-{{i}}">
-                <mat-card [ngClass]="(game.won)?'match-won':'match-lost'">
+              <div
+                *ngFor="let game of gameList; let i = index"
+                style="margin: 10px;"
+                id="game-{{ i }}"
+              >
+                <mat-card [ngClass]="game.won ? 'match-won' : 'match-lost'">
                   <mat-card-header>
                     <img
                       mat-card-avatar
                       src="{{ championIconUrl + game.champion.devname }}.png"
                     />
-                    <mat-card-title fxLayout="row" fxLayoutGap="10px">{{ game.queueType }}</mat-card-title>
+                    <mat-card-title fxLayout="row" fxLayoutGap="10px">{{
+                      game.queueType
+                    }}</mat-card-title>
                     <mat-card-subtitle>{{
                       game.gameCreation.toLocaleDateString()
                     }}</mat-card-subtitle>
@@ -140,13 +149,13 @@
                         </mat-expansion-panel-header>
                         <div fxLayout="column" fxLayoutGap="5px">
                           <div fxLayout="row" fxLayoutGap="5px">
-                            Kills: {{game.kills}}
+                            Kills: {{ game.kills }}
                           </div>
                           <div fxLayout="row" fxLayoutGap="5px">
-                            Deaths: {{game.deaths}}
+                            Deaths: {{ game.deaths }}
                           </div>
                           <div fxLayout="row" fxLayoutGap="5px">
-                            Assists: {{game.assists}}
+                            Assists: {{ game.assists }}
                           </div>
                         </div>
                       </mat-expansion-panel>
@@ -158,7 +167,14 @@
                 <mat-spinner></mat-spinner>
               </div>
               <div>
-                <button mat-raised-button color="primary" style="margin: 10px" (click)="loadNextMatches()">Load next {{increase}} matches</button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  style="margin: 10px"
+                  (click)="loadNextMatches()"
+                >
+                  Load next {{ increase }} matches
+                </button>
               </div>
             </div>
           </mat-tab>

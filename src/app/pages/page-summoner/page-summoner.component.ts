@@ -10,6 +10,7 @@ import { Summoner } from 'src/models/summoner/summoner.model';
 import { DATA_SUMMONER_ICON_URL } from 'src/constants/api/api.constants';
 import { Ranked } from 'src/models/ranked/ranked.model';
 import { Game } from 'src/models/match/game.model';
+import { Mastery } from 'src/models/mastery/mastery.model';
 
 @Component({
   selector: 'app-page-summoner',
@@ -21,6 +22,7 @@ export class PageSummonerComponent implements OnInit {
   championLoadingUrl = DATA_CHAMPION_LOADING_URL;
   championIconUrl = DATA_CHAMPION_ICON_URL;
   summoner: Summoner;
+  mastery: Mastery[];
   totalMasteryLevel: number;
   totalMasteryPoints: number;
   winRatio: number;
@@ -33,6 +35,8 @@ export class PageSummonerComponent implements OnInit {
   endIndex = this.increase;
 
   doneLoading = false;
+  doneLoadingSummoner = false;
+  doneLoadingChampionMastery = false;
   doneLoadingNextMatches = true;
   error = false;
 
@@ -42,8 +46,13 @@ export class PageSummonerComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    const region = this.route.snapshot.paramMap.get('region');
     const summonerName = this.route.snapshot.paramMap.get('name');
+
+    this.summonerService.setRegion(region);
+
     await this.getSummonerByName(summonerName);
+    await this.getChampionMasteryBySummonerId(this.summoner.id);
     await this.getRankedDataBySummonerId(this.summoner.id);
     await this.loadNextMatches();
 
@@ -55,7 +64,6 @@ export class PageSummonerComponent implements OnInit {
 
   async loadNextMatches() {
     this.doneLoadingNextMatches = false;
-    console.log('loading matches ' + this.beginIndex + ' - ' + this.endIndex);
     await this.getMatchList(this.summoner.accountId);
     const promises = this.matchList.matches.map(async element => {
       await this.getGameFromMatchId(element.gameId, this.summoner.id);
@@ -95,10 +103,23 @@ export class PageSummonerComponent implements OnInit {
   async getSummonerByName(summonerName: string) {
     await this.summonerService
       .getSummonerByName(summonerName)
-      .then(data => (this.summoner = data))
+      .then(data => {
+        this.summoner = data;
+        this.doneLoadingSummoner = true;
+      })
       .catch(error => {
         this.error = true;
       });
+  }
+
+  async getChampionMasteryBySummonerId(summonerId: string) {
+    await this.summonerService
+      .getMasteryBySummonerId(summonerId)
+      .then(data => {
+        this.mastery = data;
+        this.doneLoadingChampionMastery = true;
+      })
+      .catch(() => (this.error = true));
   }
 
   async getRankedDataBySummonerId(summonerId: string) {
@@ -114,7 +135,7 @@ export class PageSummonerComponent implements OnInit {
 
   calculateMasteryLevel() {
     let total = 0;
-    this.summoner.mastery.forEach(element => {
+    this.mastery.forEach(element => {
       total += element.championLevel;
     });
 
@@ -123,7 +144,7 @@ export class PageSummonerComponent implements OnInit {
 
   calculateMasteryPoints() {
     let total = 0;
-    this.summoner.mastery.forEach(element => {
+    this.mastery.forEach(element => {
       total += element.championPoints;
     });
 
