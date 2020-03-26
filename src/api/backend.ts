@@ -1,6 +1,6 @@
 export class BackEnd {
-  // private apiUrl = 'https://api.lollookup.nl/';
-  private apiUrl = 'http://localhost:3000/';
+  private apiUrl = 'https://api.lollookup.nl/';
+  // private apiUrl = 'http://localhost:3000/';
   private region: string;
   private summonerUrl = '/summoner/:summonerName';
   private championUrl = 'champion/:championId';
