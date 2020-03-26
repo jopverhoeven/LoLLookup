@@ -6,5 +6,4 @@ export class Summoner {
   accountId: string;
   summonerLevel: number;
   profileIconId: number;
-  mastery: Mastery[];
 }
