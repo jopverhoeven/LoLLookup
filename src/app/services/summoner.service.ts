@@ -103,7 +103,6 @@ export class SummonerService {
   }
 
   async getRegions(): Promise<Region[]> {
-    console.log('ping');
     const url = this.backend.getRegionURL();
 
     let region: Region[];
