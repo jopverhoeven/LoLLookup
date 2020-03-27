@@ -1,19 +1,61 @@
-<div fxFlexFill fxLayout="column">
-  <div *ngIf="error" fxFlex="100" fxLayoutAlign="center start">
-    <p>Something went wrong...</p>
-  </div>
-  <div *ngIf="!doneLoadingSummoner && !error" fxFlex="100">
-    <mat-spinner></mat-spinner>
-  </div>
-  <div *ngIf="doneLoadingSummoner && !error" style="margin-top: 20px;" fxFlex="100" fxLayout="row" fxLayoutAlign="center start">
-    <div fxLayout="column" ngStyle.gt-md="width: 70%;" ngStyle.lt-md="width: 90%;" fxLayoutGap="10px">
-      <div fxLayout="row" fxLayoutGap.gt-md="20px" ngClass.gt-md="header" ngClass.lt-md="m-header">
-        <img src="{{ profileIconUrl + summoner.profileIconId }}.png" />
-        <div fxLayout="column" fxLayoutGap="0px">
-          <h1 class="mat-display-1">{{ summoner.name }}</h1>
-          <h2 class="mat-subheading-1">
-            Summoner Level {{ summoner.summonerLevel }}
-          </h2>
+<div *ngIf="error" fxLayoutAlign="center start">
+  <p>Something went wrong...</p>
+</div>
+<div *ngIf="!doneLoadingSummoner && !error"></div>
+<div
+  *ngIf="doneLoadingSummoner && !error"
+  style="margin-top: 20px;"
+  fxLayout="row"
+  fxLayoutAlign="center start"
+>
+  <div
+    fxLayout="column"
+    ngStyle.gt-md="width: 70%;"
+    ngStyle.lt-md="width: 90%;"
+    fxLayoutGap="10px"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutGap.gt-md="20px"
+      ngClass.gt-md="header"
+      ngClass.lt-md="m-header"
+    >
+      <img src="{{ profileIconUrl + summoner.profileIconId }}.png" />
+      <div fxLayout="column" fxLayoutGap="0px">
+        <h1 class="mat-display-1">{{ summoner.name }}</h1>
+        <h2 class="mat-subheading-1">
+          Summoner Level {{ summoner.summonerLevel }}
+        </h2>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="10px">
+      <div fxLayout="column" fxFlex="20" fxLayoutGap="5px">
+        <div *ngFor="let ranked of rankedData" fxLayout="column">
+          <mat-card>
+            <mat-card-header>
+              <img
+                mat-card-avatar
+                src="../../../assets/images/ranked/Emblem_{{ ranked.tier }}.png"
+              />
+              <mat-card-title
+                >{{ ranked.tier }} {{ ranked.rank }}</mat-card-title
+              >
+              <mat-card-subtitle>{{ ranked.queueType }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div
+                fxLayout="column"
+                fxLayoutGap="2px"
+                fxLayoutAlign="start center"
+              >
+                <h2 class="mat-h2">
+                  {{ ranked.leaguePoints }} LP / {{ ranked.wins }}W
+                  {{ ranked.losses }}L
+                </h2>
+                <p>Winratio: {{ ranked.winratio }}%</p>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="10px">
@@ -70,52 +112,54 @@
                   </mat-card>
                 </div>
               </div>
-            </mat-tab>
-            <mat-tab label="Match History">
-              <div fxLayout="column">
-                <div *ngFor="let game of gameList; let i = index" style="margin: 10px;" id="game-{{ i }}">
-                  <mat-card [ngClass]="game.won ? 'match-won' : 'match-lost'">
+            </div>
+          </mat-tab>
+          <mat-tab label="Match History">
+            <div fxLayout="column">
+              <div
+                *ngFor="let game of gameList; let i = index"
+                style="margin: 10px;"
+                id="game-{{ i }}"
+              >
+                <mat-card [ngClass]="game.won ? 'match-won' : 'match-lost'">
+                  <div fxLayout="row" fxLayoutGap="5px">
                     <mat-card-header>
-                      <img mat-card-avatar src="{{ championIconUrl + game.champion.devname }}.png" />
                       <mat-card-title fxLayout="row" fxLayoutGap="10px">{{
-                      game.queueType
-                    }}</mat-card-title>
-                      <mat-card-subtitle>{{
-                      game.gameCreation.toLocaleDateString()
-                    }}</mat-card-subtitle>
+                        game.queueType
+                      }}</mat-card-title>
+                      <mat-card-subtitle>
+                        {{ game.gameCreation.toLocaleDateString() }}
+                        {{ game.gameCreation.getHours() }}:{{
+                          (game.gameCreation.getMinutes() < 10 ? '0' : '') +
+                            game.gameCreation.getMinutes()
+                        }}
+                      </mat-card-subtitle>
                     </mat-card-header>
-                    <mat-card-content>
-                      <mat-accordion>
-                        <mat-expansion-panel>
-                          <mat-expansion-panel-header>
-                            <mat-panel-title>
-                              Player Data
-                            </mat-panel-title>
-                          </mat-expansion-panel-header>
-                          <div fxLayout="column" fxLayoutGap="5px">
-                            <div fxLayout="row" fxLayoutGap="5px">
-                              Kills: {{ game.kills }}
-                            </div>
-                            <div fxLayout="row" fxLayoutGap="5px">
-                              Deaths: {{ game.deaths }}
-                            </div>
-                            <div fxLayout="row" fxLayoutGap="5px">
-                              Assists: {{ game.assists }}
-                            </div>
-                          </div>
-                        </mat-expansion-panel>
-                      </mat-accordion>
-                    </mat-card-content>
-                  </mat-card>
-                </div>
-                <div *ngIf="!doneLoadingNextMatches">
-                  <mat-spinner></mat-spinner>
-                </div>
-                <div>
-                  <button mat-raised-button color="primary" style="margin: 10px" (click)="loadNextMatches()">
-                    Load next {{ increase }} matches
-                  </button>
-                </div>
+                    <div>
+                      <img
+                        mat-card-avatar
+                        src="{{ championIconUrl + game.champion.devname }}.png"
+                      />
+                    </div>
+                    <div fxLayout="column">
+                      <div >
+                        <img style="width: 100%; height: auto;" src="{{ summonerSpellUrl + game.summonerSpell1.summonerSpellURL }}">
+                      </div>
+                      <div >
+                        <img src="{{ summonerSpellUrl + game.summonerSpell2.summonerSpellURL }}">
+                      </div>
+                    </div>
+                    <div fxLayout="column">
+                      <div>
+                        {{ game.kills }} / {{ game.deaths }} / {{ game.assists }}
+                      </div>
+                      <div></div>
+                    </div>
+
+                  </div>
+
+                  <mat-card-content fxLayout="column"> </mat-card-content>
+                </mat-card>
               </div>
             </mat-tab>
           </mat-tab-group>

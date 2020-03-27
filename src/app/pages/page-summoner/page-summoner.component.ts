@@ -21,6 +21,7 @@ export class PageSummonerComponent implements OnInit {
   profileIconUrl = DATA_SUMMONER_ICON_URL;
   championLoadingUrl = DATA_CHAMPION_LOADING_URL;
   championIconUrl = DATA_CHAMPION_ICON_URL;
+  summonerSpellUrl = 'http://ddragon.leagueoflegends.com/cdn/10.6.1/img/spell/';
   summoner: Summoner;
   mastery: Mastery[];
   totalMasteryLevel: number;

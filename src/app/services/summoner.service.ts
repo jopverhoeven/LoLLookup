@@ -9,6 +9,7 @@ import { Ranked } from 'src/models/ranked/ranked.model';
 import { Region } from 'src/models/region/region.model';
 import { Mastery } from 'src/models/mastery/mastery.model';
 import { BackEnd } from 'src/api/backend';
+import { SummonerSpell } from 'src/models/champion/summonerspell.model';
 
 @Injectable({
   providedIn: 'root'
@@ -99,6 +100,17 @@ export class SummonerService {
       data => (game.champion = data)
     );
 
+    console.log('ping');
+    console.log(game);
+
+    await this.getSummonerSpell(game.spell1).then(
+      data => (game.summonerSpell1 = data)
+    );
+
+    await this.getSummonerSpell(game.spell2).then(
+      data => (game.summonerSpell2 = data)
+    );
+
     return game;
   }
 
@@ -114,6 +126,22 @@ export class SummonerService {
       .toPromise();
 
     return region;
+  }
+
+  private async getSummonerSpell(summonerSpellId: number): Promise<SummonerSpell> {
+    const url = this.backend.getSummonerSpellImageURL(summonerSpellId);
+
+    let summonerSpell;
+    await this.httpClient
+      .get(url)
+      .pipe(
+        map(data => {
+          summonerSpell = data;
+        })
+      )
+      .toPromise();
+
+    return summonerSpell;
   }
 
   private async getChampionName(championId: number): Promise<Champion> {
