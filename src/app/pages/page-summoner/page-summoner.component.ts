@@ -22,6 +22,7 @@ export class PageSummonerComponent implements OnInit {
   championLoadingUrl = DATA_CHAMPION_LOADING_URL;
   championIconUrl = DATA_CHAMPION_ICON_URL;
   summonerSpellUrl = 'http://ddragon.leagueoflegends.com/cdn/10.6.1/img/spell/';
+  itemIconUrl = 'http://ddragon.leagueoflegends.com/cdn/10.6.1/img/item/';
   summoner: Summoner;
   mastery: Mastery[];
   totalMasteryLevel: number;
@@ -132,6 +133,12 @@ export class PageSummonerComponent implements OnInit {
       .catch(error => {
         this.error = true;
       });
+  }
+
+  calculateKDA(kills: number, deaths: number, assists: number) {
+    const kda = (kills + assists) / deaths;
+    const rounded = Math.round((kda + Number.EPSILON) * 100) / 100;
+    return rounded;
   }
 
   calculateMasteryLevel() {

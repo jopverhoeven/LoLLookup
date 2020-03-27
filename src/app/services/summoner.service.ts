@@ -100,9 +100,6 @@ export class SummonerService {
       data => (game.champion = data)
     );
 
-    console.log('ping');
-    console.log(game);
-
     await this.getSummonerSpell(game.spell1).then(
       data => (game.summonerSpell1 = data)
     );
@@ -115,7 +112,6 @@ export class SummonerService {
   }
 
   async getRegions(): Promise<Region[]> {
-    console.log('ping');
     const url = this.backend.getRegionURL();
 
     let region: Region[];

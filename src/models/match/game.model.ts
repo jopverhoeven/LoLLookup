@@ -18,6 +18,8 @@ export class Game {
   summonerSpell1?: SummonerSpell;
   summonerSpell2?: SummonerSpell;
 
+  itemIds: number[];
+
   won: boolean;
 
   teams: GameTeam[];
