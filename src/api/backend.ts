@@ -9,9 +9,17 @@ export class BackEnd {
   private matchUrl = '/match/:matchId/:summonerId';
   private regionUrl = 'region';
   private masteryUrl = '/mastery/:summonerId';
+  private summonerSpellImageURL = 'champion/summonerspell/:summonerSpellId';
 
   setRegion(region: string) {
     this.region = region.toLowerCase();
+  }
+
+  getSummonerSpellImageURL(summonerSpellId: number) {
+    return (
+      this.apiUrl +
+      this.summonerSpellImageURL.replace(':summonerSpellId', '' + summonerSpellId)
+    );
   }
 
   getSummonerURL(summonerName: string) {

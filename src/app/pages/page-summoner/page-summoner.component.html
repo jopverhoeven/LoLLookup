@@ -74,8 +74,65 @@
             <mat-tab label="Match History">
               <div fxLayout="column">
                 <div *ngFor="let game of gameList; let i = index" style="margin: 10px;" id="game-{{ i }}">
-                  <mat-card [ngClass]="game.won ? 'match-won' : 'match-lost'">
-                    <mat-card-header>
+                  <mat-card [ngClass]="game.won ? 'match-won' : 'match-lost'" fxLayout="column">
+                    <div fxLayout="row">
+                      <mat-card-header>
+                        <mat-card-title> {{game.queueType}}</mat-card-title>
+                        <mat-card-subtitle>{{game.gameCreation.toLocaleDateString()}}</mat-card-subtitle>
+                      </mat-card-header>
+                    </div>
+                    <mat-card-content fxLayout="column" fxLayoutGap="0px">
+                      <div fxLayout="row" fxLayoutGap="3px" style="height: 50px;">
+                        <div fxLayout="column" style="height: 100%">
+                          <img style="height: 100%; width: auto; border-radius: 50%;" src="{{ championIconUrl + game.champion.devname }}.png">
+                        </div>
+                        <div fxLayout="column" fxLayoutGap="2px" style="height: 100%">
+                          <img fxFlex="50" class="height: 100%; width: auto" src="{{ summonerSpellUrl + game.summonerSpell1.summonerSpellURL}}">
+                          <img fxFlex="50" class="height: 100%; width: auto;" src="{{ summonerSpellUrl + game.summonerSpell2.summonerSpellURL}}">
+                        </div>
+                        <div fxFlex="20" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2px" style="height: 100%;">
+                          <div>{{game.kills}} / {{game.deaths}} / {{game.assists}}</div>
+                          <div *ngIf="game.deaths == 0">Perfect KDA</div>
+                          <div *ngIf="game.deaths != 0">{{calculateKDA(game.kills, game.deaths, game.assists)}} KDA</div>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="2px" style="height: 100%;">
+                          <div fxLayout="column" fxLayoutGap="2px" style="height: 100%;">
+                            <img *ngIf="game.itemIds[0] != 0" fxFlex="50" class="match-image" src="{{ itemIconUrl + game.itemIds[0]}}.png">
+                            <img *ngIf="game.itemIds[0] == 0" fxFlex="50" class="match-image" src="../../../assets/images/items/no-item.png">
+
+                            <img *ngIf="game.itemIds[1] != 0" fxFlex="50" class="match-image" src="{{ itemIconUrl + game.itemIds[1]}}.png">
+                            <img *ngIf="game.itemIds[1] == 0" fxFlex="50" class="match-image" src="../../../assets/images/items/no-item.png">
+
+                          </div>
+                          <div fxLayout="column" fxLayoutGap="2px" style="height: 100%;">
+                            <img *ngIf="game.itemIds[2] != 0" fxFlex="50" class="match-image" src="{{ itemIconUrl + game.itemIds[2]}}.png">
+                            <img *ngIf="game.itemIds[2] == 0" fxFlex="50" class="match-image" src="../../../assets/images/items/no-item.png">
+
+                            <img *ngIf="game.itemIds[3] != 0" fxFlex="50" class="match-image" src="{{ itemIconUrl + game.itemIds[3]}}.png">
+                            <img *ngIf="game.itemIds[3] == 0" fxFlex="50" class="match-image" src="../../../assets/images/items/no-item.png">
+
+                          </div>
+                          <div fxLayout="column" fxLayoutGap="2px" style="height: 100%;">
+                            <img *ngIf="game.itemIds[4] != 0" fxFlex="50" class="match-image" src="{{ itemIconUrl + game.itemIds[4]}}.png">
+                            <img *ngIf="game.itemIds[4] == 0" fxFlex="50" class="match-image" src="../../../assets/images/items/no-item.png">
+
+                            <img *ngIf="game.itemIds[5] != 0" fxFlex="50" class="match-image" src="{{ itemIconUrl + game.itemIds[5]}}.png">
+                            <img *ngIf="game.itemIds[5] == 0" fxFlex="50" class="match-image" src="../../../assets/images/items/no-item.png">
+
+                          </div>
+                          <div fxLayout="column" fxLayoutGap="2px" style="height: 100%;">
+                            <img *ngIf="game.itemIds[6] != 0" fxFlex="50" class="match-image" src="{{ itemIconUrl + game.itemIds[6]}}.png">
+                            <img *ngIf="game.itemIds[6] == 0" fxFlex="50" class="match-image" src="../../../assets/images/items/no-item.png">
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </mat-card-content>
+
+
+
+                    <!-- <mat-card-header>
                       <img mat-card-avatar src="{{ championIconUrl + game.champion.devname }}.png" />
                       <mat-card-title fxLayout="row" fxLayoutGap="10px">{{
                       game.queueType
@@ -105,7 +162,7 @@
                           </div>
                         </mat-expansion-panel>
                       </mat-accordion>
-                    </mat-card-content>
+                    </mat-card-content> -->
                   </mat-card>
                 </div>
                 <div *ngIf="!doneLoadingNextMatches">
